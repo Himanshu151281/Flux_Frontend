@@ -1317,25 +1317,27 @@ const Index = () => {
   }, [receivedFiles]);
   
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-white text-foreground flex flex-col">
       <Header myId={myId} />
       
       {/* File Request Dialog */}
       {pendingRequest && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4">File Request</h3>
+        <div className="fixed inset-0 bg-gray-800/70 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-xl border border-gray-200">
+            <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">File Request</h3>
             <p className="mb-6">Someone wants to receive your file. Do you want to accept?</p>
             
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-3">
               <Button 
                 variant="outline" 
                 onClick={rejectFileRequest}
+                className="border-gray-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200"
               >
                 Reject
               </Button>
               <Button 
                 onClick={acceptFileRequest}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
               >
                 Accept
               </Button>
@@ -1344,14 +1346,26 @@ const Index = () => {
         </div>
       )}
       
-      <main className="flex-1 container mx-auto py-8 px-4">
+      <main className="flex-1 container mx-auto py-12 px-4">
+        {/* Hero Section */}
+        <div className="text-center mb-12 animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-3">
+            Fast & Secure File Sharing
+          </h1>
+          <p className="text-foreground font-bold max-w-2xl mx-auto">
+            Send files of any size with end-to-end encryption, directly between devices
+          </p>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Sending Files Section */}
-          <Card className="overflow-hidden shadow-lg">
-            <CardHeader className="bg-primary/5">
-              <CardTitle className="flex items-center gap-2">
-                <Share2 className="h-5 w-5" />
+          <Card className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border-gray-200">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+              <CardTitle className="flex items-center gap-3 text-gray-800">
+                <div className="bg-blue-100 p-1.5 rounded-md">
+                  <Share2 className="h-5 w-5 text-blue-600" />
+                </div>
                 Send Files
               </CardTitle>
             </CardHeader>
@@ -1363,33 +1377,34 @@ const Index = () => {
                 <div className="mt-4">
                   <h3 className="font-medium flex items-center gap-2">
                     <FileText className="h-4 w-4" />
-                    {selectedFile.name}
+                    {selectedFile.name.length > 30 ? selectedFile.name.substring(0, 30) + '...' : selectedFile.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-foreground">
                     {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                   </p>
                   
                   <div className="mt-4 space-y-4">
                     <Button 
                       onClick={generateShareLink}
-                      className="w-full"
-                      variant="outline"
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
                     >
                       Generate Connection Link
                     </Button>
                     
                     {shareableLink && (
-                      <div className="mt-2">
-                        <p className="text-sm font-medium mb-1">Share this link to connect:</p>
-                        <div className="flex items-center gap-2">
+                      <div className="mt-4">
+                        <p className="text-sm font-medium mb-2">Share this link to connect:</p>
+                        <div className="flex items-center gap-2 bg-gray-50 rounded-lg border border-gray-200 p-1">
                           <input 
                             type="text" 
                             value={shareableLink} 
                             readOnly 
-                            className="flex-1 p-2 text-sm border rounded bg-muted"
+                            className="flex-1 p-2 text-sm bg-transparent border-0 focus:ring-0 focus:outline-none font-mono text-gray-600"
                           />
                           <Button 
                             size="sm" 
+                            className="border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+                            variant="outline"
                             onClick={() => {
                               navigator.clipboard.writeText(shareableLink);
                               toast({
@@ -1411,7 +1426,7 @@ const Index = () => {
                         {connection.status === 'connected' && (
                           <Button 
                             onClick={handleSendFile}
-                            className="w-full mt-4"
+                            className="w-full mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
                             disabled={isTransferring}
                           >
                             {isTransferring ? `Sending... ${transferProgress}%` : 'Send File'}
@@ -1426,34 +1441,37 @@ const Index = () => {
           </Card>
           
           {/* Receiving Files Section */}
-          <Card className="overflow-hidden shadow-lg">
-            <CardHeader className="bg-primary/5">
-              <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
+          <Card className="overflow-hidden shadow-sm hover:shadow-md transition-shadow border-gray-200">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+              <CardTitle className="flex items-center gap-3 text-gray-800">
+                <div className="bg-blue-100 p-1.5 rounded-md">
+                  <Download className="h-5 w-5 text-blue-600" />
+                </div>
                 Receive Files
               </CardTitle>
             </CardHeader>
             
             <CardContent className="p-6">
               <div className="space-y-4">
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <label className="text-sm font-medium">Connect to sender:</label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
                     <input 
                       type="text" 
-                      placeholder="Enter connection ID" 
+                      placeholder="Enter connection ID or paste link" 
                       value={connectionId}
                       onChange={(e) => setConnectionId(e.target.value)}
-                      className="flex-1 p-2 text-sm border rounded"
+                      className="flex-1 p-2.5 rounded-lg border border-gray-200 bg-white focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all w-full"
                     />
                     <Button
                       onClick={() => handleConnect(connectionId)}
                       disabled={!connectionId || (connection?.status === 'connecting')}
+                      className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap sm:w-auto w-full"
                     >
                       Connect
                     </Button>
                   </div>
-                </div>
+                </div> */}
                 
                 {connection && (
                   <div className="mt-4">
@@ -1469,28 +1487,32 @@ const Index = () => {
                 
                 {receivedFiles.length > 0 ? (
                   <div className="mt-6">
-                    <h3 className="font-medium mb-3">Received Files ({receivedFiles.length}):</h3>
+                    <h3 className="font-medium mb-3 text-gray-800">Received Files ({receivedFiles.length}):</h3>
                     <div className="space-y-3">
                       {receivedFiles.map((file) => (
-                        <div key={file.id} className="p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                        <div key={file.id} className="bg-white p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm">
                           <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-medium flex items-center gap-2">
-                                <FileText className="h-4 w-4" />
-                                {file.name}
-                              </h4>
-                              <p className="text-sm text-muted-foreground">
-                                {(file.size / 1024 / 1024).toFixed(2)} MB
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {file.data ? `${file.data.byteLength} bytes available` : 'No data available'}
-                              </p>
+                            <div className="flex items-center gap-3">
+                              <div className="bg-blue-100 p-2 rounded-md">
+                                <FileText className="h-5 w-5 text-blue-600" />
+                              </div>
+                              <div>
+                                <h4 className="font-medium">
+                                  {file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name}
+                                </h4>
+                                <p className="text-sm text-grey-900">
+                                  {(file.size / 1024 / 1024).toFixed(2)} MB
+                                </p>
+                                <p className="text-xs text-grey-900 mt-1">
+                                  {file.data ? `${file.data.byteLength} bytes available` : 'No data available'}
+                                </p>
+                              </div>
                             </div>
                             <Button 
                               size="sm"
-                              variant="secondary"
+                              variant="outline"
                               onClick={() => downloadFile(file)}
-                              className="bg-primary text-primary-foreground hover:bg-primary/90"
+                              className="border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
                               disabled={!file.data}
                             >
                               <Download className="h-4 w-4 mr-1" /> Download
@@ -1502,8 +1524,8 @@ const Index = () => {
                   </div>
                 ) : (
                   connection && connection.status === 'connected' && (
-                    <div className="mt-6 p-4 border rounded-lg bg-muted/30 text-center">
-                      <p className="text-muted-foreground">Connected and ready to receive files</p>
+                    <div className="mt-6 p-4 border border-gray-200 rounded-lg bg-blue-50 text-center">
+                      <p className="text-gray-600">Connected and ready to receive files</p>
                     </div>
                   )
                 )}
@@ -1513,51 +1535,41 @@ const Index = () => {
         </div>
         
         {/* Features Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-center mb-8">How It Works</h2>
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            How It Works
+          </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-background">
-              <CardContent className="pt-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Shield className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-bold mb-2">Secure Transfers</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Files are transferred directly peer-to-peer with encryption.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                <Shield className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-semibold text-center mb-2 text-gray-800">Secure Transfers</h3>
+              <p className="text-foreground font-semibold text-sm text-center">
+                Files are transferred directly peer-to-peer with end-to-end encryption.
+              </p>
+            </div>
             
-            <Card className="bg-background">
-              <CardContent className="pt-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Zap className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-bold mb-2">Lightning Fast</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Direct peer-to-peer transfer without server bottlenecks.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                <Zap className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-semibold text-center mb-2 text-gray-800">Lightning Fast</h3>
+              <p className="text-foreground font-semibold text-sm text-center">
+                Direct peer-to-peer transfer without server bottlenecks for maximum speed.
+              </p>
+            </div>
             
-            <Card className="bg-background">
-              <CardContent className="pt-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <FileText className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-bold mb-2">Any File Type</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Share any type of file with ease.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+              <div className="h-14 w-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-md">
+                <FileText className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="font-semibold text-center mb-2 text-gray-800">Any File Type</h3>
+              <p className="text-foreground font-semibold text-sm text-center">
+                Share any type of file with ease without size limitations.
+              </p>
+            </div>
           </div>
         </div>
       </main>

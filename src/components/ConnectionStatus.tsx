@@ -15,13 +15,26 @@ const ConnectionStatus = ({ connection }: ConnectionStatusProps) => {
   const getStatusColor = () => {
     switch (connection.status) {
       case 'connected':
-        return 'bg-green-500/20 text-green-600 border-green-400';
+        return 'bg-green-100 text-green-700 border-green-200';
       case 'connecting':
-        return 'bg-yellow-500/20 text-yellow-600 border-yellow-400';
+        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       case 'disconnected':
-        return 'bg-red-500/20 text-red-600 border-red-400';
+        return 'bg-red-100 text-red-700 border-red-200';
       default:
-        return 'bg-slate-500/20 text-slate-600 border-slate-400';
+        return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+  };
+
+  const getStatusBg = () => {
+    switch (connection.status) {
+      case 'connected':
+        return 'bg-green-50 border-green-100';
+      case 'connecting':
+        return 'bg-yellow-50 border-yellow-100';
+      case 'disconnected':
+        return 'bg-red-50 border-red-100';
+      default:
+        return 'bg-gray-50 border-gray-100';
     }
   };
 
@@ -52,15 +65,19 @@ const ConnectionStatus = ({ connection }: ConnectionStatusProps) => {
   };
 
   return (
-    <div className="border rounded-lg p-3 bg-muted/20">
+    <div className={`rounded-xl p-4 border shadow-sm ${getStatusBg()}`}>
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-sm font-medium">Connection Status</p>
-          <p className="text-xs text-muted-foreground">ID: {connection.id}</p>
+          <p className="text-sm font-medium mb-1">Connection Status</p>
+          <div className="flex items-center gap-1.5">
+            <div className="font-mono bg-white px-2 py-0.5 text-xs rounded border">
+              {connection.id.substring(0, 12)}
+            </div>
+          </div>
         </div>
-        <Badge className={`flex items-center gap-1.5 ${getStatusColor()}`}>
+        <Badge variant="outline" className={`flex items-center gap-1.5 px-3 py-1.5 ${getStatusColor()}`}>
           {getStatusIcon()}
-          {getStatusText()}
+          <span className="font-medium">{getStatusText()}</span>
         </Badge>
       </div>
     </div>

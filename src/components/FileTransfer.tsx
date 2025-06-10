@@ -7,10 +7,10 @@ interface FileTransferProps {
 
 const FileTransfer = ({ progress }: FileTransferProps) => {
   return (
-    <div className="border rounded-lg p-4 bg-muted/10">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="h-8 w-8 bg-primary/20 rounded-full flex items-center justify-center">
-          <ArrowDown className="h-4 w-4 text-primary" />
+    <div className="rounded-xl border p-5 shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
+          <ArrowDown className="h-5 w-5 text-blue-600" />
         </div>
         <div>
           <p className="text-sm font-medium">File Transfer in Progress</p>
@@ -18,7 +18,13 @@ const FileTransfer = ({ progress }: FileTransferProps) => {
         </div>
       </div>
       
-      <Progress value={progress} className="h-2" />
+      <div className="relative pt-1">
+        <Progress value={progress} className="h-3 rounded-full bg-blue-100" indicatorClassName="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full" />
+        <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+          <span>0%</span>
+          <span>100%</span>
+        </div>
+      </div>
     </div>
   );
 };
