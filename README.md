@@ -1,4 +1,4 @@
-# Dark Pizza Forge - Secure File Sharing
+# Flux - Fast & Secure File Sharing
 
 A secure file sharing application built with React, Vite, and Express.
 

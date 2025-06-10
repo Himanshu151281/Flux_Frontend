@@ -28,8 +28,8 @@ interface Connection {
 }
 
 // Add localStorage key constants at the top of the file, before the component
-const LS_TRANSFER_KEY = 'dark_pizza_file_transfer';
-const LS_CONNECT_KEY = 'dark_pizza_connection_request';
+const LS_TRANSFER_KEY = 'flux_fast_secure_file_sharing';
+const LS_CONNECT_KEY = 'flux_fast_secure_file_sharing_connection_request';
 
 const Index = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
